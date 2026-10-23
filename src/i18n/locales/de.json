@@ -1,0 +1,111 @@
+{
+  "app": { "name": "Kleinfeld", "tagline": "Spiel ansehen, Statistik sehen" },
+  "nav": {
+    "home": "Startseite",
+    "matches": "Spiele",
+    "organizations": "Organisationen",
+    "highlights": "Highlights",
+    "profile": "Profil",
+    "settings": "Einstellungen",
+    "logout": "Abmelden"
+  },
+  "auth": {
+    "login": "Anmelden",
+    "email": "E-Mail",
+    "password": "Passwort",
+    "passwordConfirm": "Passwort bestätigen",
+    "forgot": "Passwort vergessen?",
+    "forgotTitle": "Passwort zurücksetzen",
+    "forgotHint": "Gib deine E-Mail-Adresse ein, wir senden dir einen Link zum Zurücksetzen.",
+    "sendLink": "Link senden",
+    "linkSent": "Der Link zum Zurücksetzen wurde an deine E-Mail gesendet.",
+    "resetTitle": "Neues Passwort festlegen",
+    "resetSubmit": "Passwort aktualisieren",
+    "resetDone": "Dein Passwort wurde aktualisiert. Du kannst dich jetzt anmelden.",
+    "backToLogin": "Zurück zur Anmeldung",
+    "invalid": "E-Mail oder Passwort ist falsch.",
+    "mockHint": "Demo-Modus: Anmeldung mit beliebiger E-Mail und einem Passwort mit mindestens 6 Zeichen.",
+    "passwordMismatch": "Die Passwörter stimmen nicht überein.",
+    "passwordTooShort": "Das Passwort muss mindestens 8 Zeichen lang sein."
+  },
+  "home": {
+    "recentMatches": "Letzte Spiele",
+    "latestHighlights": "Neueste Highlights",
+    "topScorers": "Torschützenliste",
+    "seeAll": "Alle anzeigen"
+  },
+  "match": {
+    "timeline": "Spielverlauf",
+    "lineups": "Aufstellungen",
+    "stats": "Statistiken",
+    "video": "Spielvideo",
+    "highlights": "Highlights",
+    "assistBy": "Vorlage: {{name}}",
+    "noEvents": "Für dieses Spiel wurde noch keine Analyse eingetragen.",
+    "status": {
+      "scheduled": "Geplant",
+      "played": "Gespielt",
+      "analyzed": "Analysiert"
+    },
+    "jumpTo": "Im Video zu {{time}} springen"
+  },
+  "player": {
+    "matches": "Spiele",
+    "totals": "Gesamtstatistik",
+    "recentMatches": "Letzte Spiele",
+    "position": {
+      "GK": "Tormann",
+      "DF": "Verteidigung",
+      "MF": "Mittelfeld",
+      "FW": "Sturm"
+    }
+  },
+  "org": {
+    "standings": "Tabelle",
+    "leaderboard": "Bestenliste",
+    "teams": "Mannschaften",
+    "played": "Sp",
+    "won": "S",
+    "drawn": "U",
+    "lost": "N",
+    "goalDiff": "TD",
+    "points": "Pkt",
+    "team": "Mannschaft",
+    "player": "Spieler"
+  },
+  "profile": {
+    "title": "Mein Profil",
+    "name": "Name",
+    "nickname": "Spitzname",
+    "position": "Position",
+    "foot": "Starker Fuß",
+    "footRight": "Rechts",
+    "footLeft": "Links",
+    "footBoth": "Beidfüßig",
+    "save": "Speichern",
+    "saved": "Profil gespeichert.",
+    "myStats": "Meine Statistiken"
+  },
+  "settings": {
+    "title": "Einstellungen",
+    "language": "Sprache",
+    "theme": "Design",
+    "light": "Hell",
+    "dark": "Dunkel",
+    "notifications": "Benachrichtigungen",
+    "notifyNewMatch": "E-Mail senden, wenn eines meiner Spiele analysiert wurde",
+    "changePassword": "Passwort ändern",
+    "currentPassword": "Aktuelles Passwort",
+    "newPassword": "Neues Passwort",
+    "updatePassword": "Passwort aktualisieren",
+    "passwordUpdated": "Dein Passwort wurde aktualisiert."
+  },
+  "common": {
+    "loading": "Wird geladen…",
+    "error": "Etwas ist schiefgelaufen.",
+    "retry": "Erneut versuchen",
+    "notFound": "Seite nicht gefunden",
+    "goHome": "Zur Startseite",
+    "vs": "gg."
+  }
+}

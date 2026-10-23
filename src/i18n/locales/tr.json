@@ -1,0 +1,111 @@
+{
+  "app": { "name": "Halı Saha", "tagline": "Maçını izle, istatistiğini gör" },
+  "nav": {
+    "home": "Ana sayfa",
+    "matches": "Maçlar",
+    "organizations": "Organizasyonlar",
+    "highlights": "Önemli anlar",
+    "profile": "Profil",
+    "settings": "Ayarlar",
+    "logout": "Çıkış yap"
+  },
+  "auth": {
+    "login": "Giriş yap",
+    "email": "E-posta",
+    "password": "Şifre",
+    "passwordConfirm": "Şifre (tekrar)",
+    "forgot": "Şifremi unuttum",
+    "forgotTitle": "Şifreni sıfırla",
+    "forgotHint": "E-posta adresini gir, sana sıfırlama bağlantısı gönderelim.",
+    "sendLink": "Bağlantıyı gönder",
+    "linkSent": "Sıfırlama bağlantısı e-posta adresine gönderildi.",
+    "resetTitle": "Yeni şifre belirle",
+    "resetSubmit": "Şifreyi güncelle",
+    "resetDone": "Şifren güncellendi. Şimdi giriş yapabilirsin.",
+    "backToLogin": "Girişe dön",
+    "invalid": "E-posta veya şifre hatalı.",
+    "mockHint": "Demo modu: herhangi bir e-posta ve en az 6 karakterli şifre ile giriş yapabilirsin.",
+    "passwordMismatch": "Şifreler eşleşmiyor.",
+    "passwordTooShort": "Şifre en az 8 karakter olmalı."
+  },
+  "home": {
+    "recentMatches": "Son maçlar",
+    "latestHighlights": "Son önemli anlar",
+    "topScorers": "Gol krallığı",
+    "seeAll": "Tümünü gör"
+  },
+  "match": {
+    "timeline": "Maç akışı",
+    "lineups": "Kadrolar",
+    "stats": "İstatistikler",
+    "video": "Maç videosu",
+    "highlights": "Önemli anlar",
+    "assistBy": "asist: {{name}}",
+    "noEvents": "Bu maç için henüz analiz girilmedi.",
+    "status": {
+      "scheduled": "Planlandı",
+      "played": "Oynandı",
+      "analyzed": "Analiz edildi"
+    },
+    "jumpTo": "Videoda {{time}}'e git"
+  },
+  "player": {
+    "matches": "Maç",
+    "totals": "Toplam istatistikler",
+    "recentMatches": "Son maçları",
+    "position": {
+      "GK": "Kaleci",
+      "DF": "Defans",
+      "MF": "Orta saha",
+      "FW": "Forvet"
+    }
+  },
+  "org": {
+    "standings": "Puan durumu",
+    "leaderboard": "Liderlik tablosu",
+    "teams": "Takımlar",
+    "played": "O",
+    "won": "G",
+    "drawn": "B",
+    "lost": "M",
+    "goalDiff": "AV",
+    "points": "P",
+    "team": "Takım",
+    "player": "Oyuncu"
+  },
+  "profile": {
+    "title": "Profilim",
+    "name": "Ad soyad",
+    "nickname": "Saha adı",
+    "position": "Pozisyon",
+    "foot": "Kullandığı ayak",
+    "footRight": "Sağ",
+    "footLeft": "Sol",
+    "footBoth": "İki ayak",
+    "save": "Kaydet",
+    "saved": "Profil kaydedildi.",
+    "myStats": "İstatistiklerim"
+  },
+  "settings": {
+    "title": "Ayarlar",
+    "language": "Dil",
+    "theme": "Tema",
+    "light": "Açık",
+    "dark": "Koyu",
+    "notifications": "Bildirimler",
+    "notifyNewMatch": "Analizi tamamlanan maçlarım için e-posta gönder",
+    "changePassword": "Şifre değiştir",
+    "currentPassword": "Mevcut şifre",
+    "newPassword": "Yeni şifre",
+    "updatePassword": "Şifreyi güncelle",
+    "passwordUpdated": "Şifren güncellendi."
+  },
+  "common": {
+    "loading": "Yükleniyor…",
+    "error": "Bir şeyler ters gitti.",
+    "retry": "Tekrar dene",
+    "notFound": "Sayfa bulunamadı",
+    "goHome": "Ana sayfaya dön",
+    "vs": "vs"
+  }
+}

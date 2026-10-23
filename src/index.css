@@ -1,0 +1,79 @@
+@import 'tailwindcss';
+
+/* Karanlık mod: <html class="dark"> ile çalışır (Ayarlar sayfasından değiştirilir) */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Tasarım token'ları — shadcn/ui ile uyumlu isimlendirme */
+@theme {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Barlow Condensed', 'Inter', sans-serif;
+
+  --color-pitch-950: #052e16;
+  --color-pitch-900: #0b3d1f;
+  --color-pitch-800: #14532d;
+  --color-pitch-700: #166534;
+  --color-chalk: #f4f7f2;
+  --color-lime-accent: #bef264;
+
+  --radius-lg: 0.75rem;
+  --radius-md: 0.5rem;
+}
+
+/* Açık/koyu moda göre değişen token'lar: inline, böylece .dark altında doğru çözülür */
+@theme inline {
+  --color-background: var(--bg);
+  --color-foreground: var(--fg);
+  --color-card: var(--card);
+  --color-card-foreground: var(--fg);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-fg);
+  --color-border: var(--border);
+  --color-input: var(--border);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-fg);
+  --color-accent: var(--accent);
+  --color-destructive: #dc2626;
+  --color-ring: var(--primary);
+}
+
+:root {
+  --bg: #f4f7f2;
+  --fg: #0f1a12;
+  --card: #ffffff;
+  --muted: #e7ede4;
+  --muted-fg: #56645a;
+  --border: #d6dfd2;
+  --primary: #166534;
+  --primary-fg: #f4f7f2;
+  --accent: #bef264;
+}
+
+.dark {
+  --bg: #07130b;
+  --fg: #e8efe6;
+  --card: #0e1f14;
+  --muted: #16291c;
+  --muted-fg: #94a89a;
+  --border: #1f3727;
+  --primary: #bef264;
+  --primary-fg: #07130b;
+  --accent: #bef264;
+}
+
+body {
+  @apply bg-background text-foreground font-sans antialiased;
+}
+
+.font-display {
+  font-family: var(--font-display);
+  letter-spacing: 0.01em;
+}
+
+/* Saha çizgisi deseni — başlık alanlarında kullanılır */
+.pitch-pattern {
+  background-color: var(--color-pitch-800);
+  background-image:
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.035) 0 48px, transparent 48px 96px),
+    radial-gradient(circle at 50% 50%, transparent 58px, rgba(255, 255, 255, 0.18) 59px, rgba(255, 255, 255, 0.18) 61px, transparent 62px),
+    linear-gradient(90deg, transparent calc(50% - 1px), rgba(255, 255, 255, 0.18) calc(50% - 1px), rgba(255, 255, 255, 0.18) calc(50% + 1px), transparent calc(50% + 1px));
+}

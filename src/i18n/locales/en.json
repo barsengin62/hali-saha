@@ -1,0 +1,111 @@
+{
+  "app": { "name": "Pitch Stats", "tagline": "Watch your match, see your stats" },
+  "nav": {
+    "home": "Home",
+    "matches": "Matches",
+    "organizations": "Organizations",
+    "highlights": "Highlights",
+    "profile": "Profile",
+    "settings": "Settings",
+    "logout": "Log out"
+  },
+  "auth": {
+    "login": "Log in",
+    "email": "Email",
+    "password": "Password",
+    "passwordConfirm": "Confirm password",
+    "forgot": "Forgot password?",
+    "forgotTitle": "Reset your password",
+    "forgotHint": "Enter your email and we'll send you a reset link.",
+    "sendLink": "Send link",
+    "linkSent": "A reset link has been sent to your email.",
+    "resetTitle": "Set a new password",
+    "resetSubmit": "Update password",
+    "resetDone": "Your password was updated. You can log in now.",
+    "backToLogin": "Back to login",
+    "invalid": "Incorrect email or password.",
+    "mockHint": "Demo mode: log in with any email and a password of at least 6 characters.",
+    "passwordMismatch": "Passwords don't match.",
+    "passwordTooShort": "Password must be at least 8 characters."
+  },
+  "home": {
+    "recentMatches": "Recent matches",
+    "latestHighlights": "Latest highlights",
+    "topScorers": "Top scorers",
+    "seeAll": "See all"
+  },
+  "match": {
+    "timeline": "Timeline",
+    "lineups": "Lineups",
+    "stats": "Stats",
+    "video": "Match video",
+    "highlights": "Highlights",
+    "assistBy": "assist: {{name}}",
+    "noEvents": "No analysis has been entered for this match yet.",
+    "status": {
+      "scheduled": "Scheduled",
+      "played": "Played",
+      "analyzed": "Analyzed"
+    },
+    "jumpTo": "Jump to {{time}} in video"
+  },
+  "player": {
+    "matches": "Matches",
+    "totals": "Career totals",
+    "recentMatches": "Recent matches",
+    "position": {
+      "GK": "Goalkeeper",
+      "DF": "Defender",
+      "MF": "Midfielder",
+      "FW": "Forward"
+    }
+  },
+  "org": {
+    "standings": "Standings",
+    "leaderboard": "Leaderboard",
+    "teams": "Teams",
+    "played": "P",
+    "won": "W",
+    "drawn": "D",
+    "lost": "L",
+    "goalDiff": "GD",
+    "points": "Pts",
+    "team": "Team",
+    "player": "Player"
+  },
+  "profile": {
+    "title": "My profile",
+    "name": "Full name",
+    "nickname": "Pitch name",
+    "position": "Position",
+    "foot": "Preferred foot",
+    "footRight": "Right",
+    "footLeft": "Left",
+    "footBoth": "Both",
+    "save": "Save",
+    "saved": "Profile saved.",
+    "myStats": "My stats"
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "theme": "Theme",
+    "light": "Light",
+    "dark": "Dark",
+    "notifications": "Notifications",
+    "notifyNewMatch": "Email me when one of my matches has been analyzed",
+    "changePassword": "Change password",
+    "currentPassword": "Current password",
+    "newPassword": "New password",
+    "updatePassword": "Update password",
+    "passwordUpdated": "Your password was updated."
+  },
+  "common": {
+    "loading": "Loading…",
+    "error": "Something went wrong.",
+    "retry": "Try again",
+    "notFound": "Page not found",
+    "goHome": "Go to home page",
+    "vs": "vs"
+  }
+}
