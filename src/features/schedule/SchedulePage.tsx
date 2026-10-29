@@ -16,7 +16,7 @@ import {
   toISODate,
 } from '@/lib/dates'
 import { getErrorMessage } from '@/api/client'
-import type { Game } from '@/types'
+import type { Game, RegistrationRequest } from '@/types'
 import { ScheduledGameCard } from './ScheduledGameCard'
 
 /**
@@ -79,22 +79,27 @@ export function SchedulePage() {
     setRange(draftFrom, draftTo)
   }
 
-  async function toggleRegistration(game: Game) {
+  /** Kayıt işlemi: kart anında güncellenir; hata olursa mesaj gösterilir ve liste yeniden çekilir */
+  async function changeRegistration(game: Game, operation: () => Promise<Game>): Promise<boolean> {
     setBusyId(game.id)
     setActionError(null)
     try {
-      const updated = game.registration?.is_registered
-        ? await api.unregisterFromGame(game.id)
-        : await api.registerForGame(game.id)
+      const updated = await operation()
       setItems((list) => list.map((g) => (g.id === updated.id ? updated : g)))
+      return true
     } catch (error) {
       // API'nin açıklayıcı mesajı (ör. "Kontenjan dolu."), yoksa genel mesaj
       setActionError(getErrorMessage(error, t('schedule.registerError')))
       reload() // güncel doluluğu tekrar çek
+      return false
     } finally {
       setBusyId(null)
     }
   }
+
+  // HS-42: talep gönder / geri çek
+  const requestGame = (game: Game, body: RegistrationRequest) => changeRegistration(game, () => api.requestGame(game.id, body))
+  const withdraw = (game: Game) => changeRegistration(game, () => api.withdrawFromGame(game.id))
 
   // Güne göre grupla
   const days = useMemo(() => {
@@ -177,8 +182,8 @@ export function SchedulePage() {
                       key={g.id}
                       game={g}
                       busy={busyId === g.id}
-                      onRegister={() => toggleRegistration(g)}
-                      onUnregister={() => toggleRegistration(g)}
+                      onRequest={(body) => requestGame(g, body)}
+                      onWithdraw={() => void withdraw(g)}
                     />
                   ))}
                 </div>

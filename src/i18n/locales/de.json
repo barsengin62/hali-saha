@@ -131,17 +131,27 @@
     "spotsLeft_other": "{{count}} Plätze frei",
     "full": "Ausgebucht",
     "register": "Anmelden",
-    "unregister": "Abmelden",
-    "youAreIn": "Du bist dabei",
     "started": "Begonnen / vorbei",
     "tbd": "Offen",
     "registerError": "Anmeldung nicht möglich. Das Spiel ist eventuell voll.",
     "gameCount_one": "{{count}} Spiel",
     "gameCount_other": "{{count}} Spiele",
     "invalidRange": "Das Enddatum darf nicht vor dem Startdatum liegen.",
-    "rule": "An- und Abmeldung sind bis Spielbeginn möglich.",
+    "rule": "Die Anmeldung ist eine Anfrage; nach Bestätigung durch den Admin bist du im Kader. Zurückziehen ist bis zum Anpfiff möglich.",
     "lineupsSet": "Aufstellung steht",
     "inSquad": "Du bist im Kader",
-    "lineupsRule": "Die Aufstellung steht; An- und Abmeldung sind geschlossen."
+    "lineupsRule": "Die Aufstellung steht; An- und Abmeldung sind geschlossen.",
+    "pending": "Wartet auf Bestätigung",
+    "withdraw": "Anfrage zurückziehen",
+    "leave": "Aus dem Kader austreten",
+    "rejected": "Deine Anfrage wurde abgelehnt",
+    "requestAgain": "Erneut anfragen",
+    "form": {
+      "team": "Wunschmannschaft",
+      "position": "Wunschposition",
+      "any": "Egal",
+      "submit": "Anfrage senden",
+      "cancel": "Abbrechen"
+    }
   }
 }

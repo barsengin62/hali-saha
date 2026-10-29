@@ -14,6 +14,7 @@ import type {
   Organization,
   Paginated,
   PlayerStats,
+  RegistrationRequest,
   StandingRow,
   StatType,
   User,
@@ -47,8 +48,10 @@ export interface ApiClient {
   game(id: number): Promise<GameDetail>
   /** Takvim = planlanmış maçlar, tarih aralığında, eskiden yeniye */
   schedule(range: { from: string; to: string }): Promise<Game[]>
-  registerForGame(id: number): Promise<Game>
-  unregisterFromGame(id: number): Promise<Game>
+  /** HS-42: kayıt talebi (admin onaylayınca kadroya girer); tercihler isteğe bağlı */
+  requestGame(id: number, body?: RegistrationRequest): Promise<Game>
+  /** Talebi geri çeker (bekleyen ya da onaylı) */
+  withdrawFromGame(id: number): Promise<Game>
 }
 
 /** Laravel API Resource'ları tekil kayıtları { data: ... } içinde döndürür. */
@@ -135,11 +138,11 @@ const realApi: ApiClient = {
     const page = await realApi.games({ status: ['scheduled', 'lineups_set'], from, to, sort: 'starts_at', per_page: 50 })
     return page.data
   },
-  async registerForGame(id) {
-    const { data } = await http.post<Wrapped<Game>>(`/api/games/${id}/registration`)
+  async requestGame(id, body = {}) {
+    const { data } = await http.post<Wrapped<Game>>(`/api/games/${id}/registration`, body)
     return data.data
   },
-  async unregisterFromGame(id) {
+  async withdrawFromGame(id) {
     const { data } = await http.delete<Wrapped<Game>>(`/api/games/${id}/registration`)
     return data.data
   },

@@ -131,17 +131,27 @@
     "spotsLeft_other": "{{count}} spots left",
     "full": "Full",
     "register": "Sign up",
-    "unregister": "Cancel sign-up",
-    "youAreIn": "You're in",
     "started": "Started / over",
     "tbd": "TBD",
     "registerError": "Couldn't sign you up. The match may be full.",
     "gameCount_one": "{{count}} match",
     "gameCount_other": "{{count}} matches",
     "invalidRange": "End date can't be before start date.",
-    "rule": "You can register or cancel until kick-off.",
+    "rule": "Signing up sends a request; once an admin approves it you are in the squad. You can withdraw until kick-off.",
     "lineupsSet": "Lineups set",
     "inSquad": "You're in the squad",
-    "lineupsRule": "The lineups are set; signing up and leaving are closed."
+    "lineupsRule": "The lineups are set; signing up and leaving are closed.",
+    "pending": "Awaiting approval",
+    "withdraw": "Withdraw request",
+    "leave": "Leave the squad",
+    "rejected": "Your request was rejected",
+    "requestAgain": "Request again",
+    "form": {
+      "team": "Preferred team",
+      "position": "Preferred position",
+      "any": "No preference",
+      "submit": "Send request",
+      "cancel": "Cancel"
+    }
   }
 }

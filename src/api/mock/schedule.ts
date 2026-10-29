@@ -2,11 +2,12 @@
  * Maç takvimi için sahte veri. Bugünün tarihine göre üretilir:
  * geçen haftadan 3 hafta sonrasına kadar, her hafta birkaç planlanmış maç.
  * Bu haftanın bazı takımlı maçlarının kadroları oluşturulmuş (HS-44, lineups_set).
- * Kayıt ol / iptal et işlemleri sayfa açık kaldığı sürece bellekte tutulur.
- * Kurallar backend'deki GameRegistrationService ile aynı (HS-37).
+ * Bu hafta örnek talepler: kadrodasın (onaylı), onay bekliyor, reddedildi (HS-42).
+ * Talep / geri çekme sayfa açık kaldığı sürece bellekte tutulur; admin onayı mock'ta yok.
+ * Kurallar backend'deki GameRegistrationService ile aynı (HS-37 / HS-42).
  */
 import { addDays, startOfWeek } from '@/lib/dates'
-import type { Game, Team } from '@/types'
+import type { Game, RegistrationStatus, Team } from '@/types'
 import { organizations, pitches, teams } from './data'
 
 // [haftanın günü (0=Pzt), saat, dakika, saha, format, takımlar belli mi]
@@ -25,8 +26,11 @@ function pick<T>(list: T[], i: number): T {
   return list[i % list.length]
 }
 
-/** Kayıt durumu (bellekte): maç id → { sayı, ben kayıtlı mıyım } */
-const registrations = new Map<number, { count: number; mine: boolean }>()
+/** Kayıt durumu (bellekte): maç id → { onaylı kayıt sayısı (benimki dahil), benim talebim } */
+const registrations = new Map<number, { count: number; mine: RegistrationStatus | null }>()
+
+/** Bu haftanın örnek talepleri: slot → durum */
+const sampleRequests: Record<number, RegistrationStatus> = { 0: 'approved', 2: 'pending', 4: 'rejected' }
 
 function build(): Game[] {
   const weekStart = startOfWeek(new Date())
@@ -54,7 +58,8 @@ function build(): Game[] {
       const org = hasTeams ? organizations[0] : organizations[1]
       // Kadrolar oluşturuldu: bu hafta, takımlı maçların bazıları; ilkinde kullanıcı kadroda
       const lineupsSet = hasTeams && week === 0 && slotIdx % 3 === 0
-      registrations.set(id, { count: registered, mine: lineupsSet && slotIdx === 0 })
+      const mine = week === 0 ? (sampleRequests[slotIdx] ?? null) : null
+      registrations.set(id, { count: registered, mine })
       result.push({
         id: id++,
         status: lineupsSet ? 'lineups_set' : 'scheduled',
@@ -81,25 +86,32 @@ export function isChangeable(game: Game): boolean {
   return game.status === 'scheduled' && new Date(game.starts_at).getTime() > Date.now()
 }
 
+export function myRequest(gameId: number): RegistrationStatus | null {
+  return registrations.get(gameId)?.mine ?? null
+}
+
 /** Backend'deki GameResource.registration ile aynı alanlar */
 export function withRegistration(game: Game): Game {
-  const state = registrations.get(game.id) ?? { count: 0, mine: false }
+  const state = registrations.get(game.id) ?? { count: 0, mine: null }
   const spotsLeft = Math.max(0, game.capacity - state.count)
+  const isOpen = isChangeable(game) && spotsLeft > 0
   return {
     ...game,
     registration: {
       count: state.count,
       capacity: game.capacity,
       spots_left: spotsLeft,
-      is_registered: state.mine,
-      is_open: isChangeable(game) && spotsLeft > 0,
-      can_unregister: state.mine && isChangeable(game),
+      request_status: state.mine,
+      is_open: isOpen,
+      can_request: isOpen && (state.mine === null || state.mine === 'rejected'),
+      can_withdraw: (state.mine === 'pending' || state.mine === 'approved') && isChangeable(game),
     },
   }
 }
 
-export function setRegistration(gameId: number, mine: boolean) {
-  const state = registrations.get(gameId) ?? { count: 0, mine: false }
-  if (state.mine === mine) return
-  registrations.set(gameId, { count: state.count + (mine ? 1 : -1), mine })
+/** Talep durumunu değiştirir; onaylı talep eklenip çıkınca sayı güncellenir */
+export function setRequest(gameId: number, mine: RegistrationStatus | null) {
+  const state = registrations.get(gameId) ?? { count: 0, mine: null }
+  const delta = (mine === 'approved' ? 1 : 0) - (state.mine === 'approved' ? 1 : 0)
+  registrations.set(gameId, { count: state.count + delta, mine })
 }

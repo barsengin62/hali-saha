@@ -14,7 +14,7 @@ import type {
   User,
 } from '@/types'
 import { games, organizations, organizationTeams, players, SAMPLE_VIDEO_URL, statTypes, teams } from './data'
-import { isChangeable, scheduledGames, setRegistration, withRegistration } from './schedule'
+import { isChangeable, myRequest, scheduledGames, setRequest, withRegistration } from './schedule'
 
 const wait = (ms = 300) => new Promise((r) => setTimeout(r, ms))
 
@@ -241,25 +241,29 @@ export const mockApi: ApiClient = {
     return page.data
   },
 
-  async registerForGame(id) {
+  // HS-42: talep "bekliyor" ile başlar; reddedilen talep tekrar gönderilebilir (tercihler mock'ta saklanmaz)
+  async requestGame(id) {
     await wait(250)
     const game = scheduledGames.find((g) => g.id === id) ?? notFound()
-    const current = withRegistration(game).registration!
-    if (current.is_registered) return withRegistration(game)
+    const mine = myRequest(id)
+    if (mine === 'pending' || mine === 'approved') return withRegistration(game)
     if (game.status === 'lineups_set') unprocessable('registration', 'Kadrolar oluşturuldu; kayıt değiştirilemez.')
     if (!isChangeable(game)) unprocessable('registration', 'Maç başladı; kayıt değiştirilemez.')
-    if (current.spots_left === 0) unprocessable('registration', 'Kontenjan dolu.')
-    setRegistration(id, true)
+    if (withRegistration(game).registration!.spots_left === 0) unprocessable('registration', 'Kontenjan dolu.')
+    setRequest(id, 'pending')
     return withRegistration(game)
   },
 
-  async unregisterFromGame(id) {
+  async withdrawFromGame(id) {
     await wait(250)
     const game = scheduledGames.find((g) => g.id === id) ?? notFound()
-    if (!withRegistration(game).registration!.is_registered) return withRegistration(game)
-    if (game.status === 'lineups_set') unprocessable('registration', 'Kadrolar oluşturuldu; kayıt değiştirilemez.')
-    if (!isChangeable(game)) unprocessable('registration', 'Maç başladı; kayıt değiştirilemez.')
-    setRegistration(id, false)
+    const mine = myRequest(id)
+    if (mine === null) return withRegistration(game)
+    if (mine !== 'rejected') {
+      if (game.status === 'lineups_set') unprocessable('registration', 'Kadrolar oluşturuldu; kayıt değiştirilemez.')
+      if (!isChangeable(game)) unprocessable('registration', 'Maç başladı; kayıt değiştirilemez.')
+    }
+    setRequest(id, null)
     return withRegistration(game)
   },
 }

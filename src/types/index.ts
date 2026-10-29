@@ -90,15 +90,29 @@ export interface Pitch {
 // ---------- Maç (GameResource / GameDetailResource) ----------
 
 /** Takvim kartı için kayıt durumu (giriş yapmış kullanıcıya göre) */
+/** HS-42: kayıt talebinin durumu; kontenjanı sadece onaylananlar doldurur */
+export type RegistrationStatus = 'pending' | 'approved' | 'rejected'
+
+/** GameResource.registration (HS-37 / HS-42) */
 export interface GameRegistration {
+  /** Onaylanmış kayıt sayısı */
   count: number
   capacity: number
   spots_left: number
-  is_registered: boolean
+  /** Kullanıcının talebi; talep yoksa null */
+  request_status: RegistrationStatus | null
   /** Kayıt şu an açık mı (planlandı, başlamadı, yer var) */
   is_open: boolean
-  /** Kayıtlıysa kayıttan çıkabilir mi (planlandı, başlamadı) */
-  can_unregister: boolean
+  /** Talep gönderebilir mi: kayıt açık ve talebi yok ya da reddedilmiş */
+  can_request: boolean
+  /** Talebini geri çekebilir mi: bekleyen / onaylı talep, maç planlandı ve başlamadı */
+  can_withdraw: boolean
+}
+
+/** POST /api/games/{id}/registration gövdesi; ikisi de isteğe bağlı (null = fark etmez) */
+export interface RegistrationRequest {
+  team_id?: number | null
+  position?: Position | null
 }
 
 export interface Game {

@@ -131,17 +131,27 @@
     "spotsLeft_other": "{{count}} yer kaldı",
     "full": "Dolu",
     "register": "Kayıt ol",
-    "unregister": "Kaydı iptal et",
-    "youAreIn": "Kayıtlısın",
     "started": "Başladı / bitti",
     "tbd": "Belirlenecek",
     "registerError": "Kayıt yapılamadı. Maç dolmuş olabilir.",
     "gameCount_one": "{{count}} maç",
     "gameCount_other": "{{count}} maç",
     "invalidRange": "Bitiş tarihi başlangıçtan önce olamaz.",
-    "rule": "Kayıt ve kayıttan çıkma maç başlayana kadar açık.",
+    "rule": "Kayıt bir taleptir; admin onaylayınca kadroya girersin. Geri çekme maç başlayana kadar açık.",
     "lineupsSet": "Kadrolar belli oldu",
     "inSquad": "Kadrodasın",
-    "lineupsRule": "Kadrolar belli oldu; kayıt ve kayıttan çıkma kapalı."
+    "lineupsRule": "Kadrolar belli oldu; kayıt ve kayıttan çıkma kapalı.",
+    "pending": "Onay bekliyor",
+    "withdraw": "Talebi geri çek",
+    "leave": "Kadrodan çık",
+    "rejected": "Talebin reddedildi",
+    "requestAgain": "Tekrar talep et",
+    "form": {
+      "team": "Takım tercihi",
+      "position": "Pozisyon tercihi",
+      "any": "Fark etmez",
+      "submit": "Talep gönder",
+      "cancel": "Vazgeç"
+    }
   }
 }
