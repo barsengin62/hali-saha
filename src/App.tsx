@@ -8,17 +8,19 @@ import { LoginPage } from '@/features/auth/LoginPage'
 import { ResetPasswordPage } from '@/features/auth/ResetPasswordPage'
 import { HighlightsPage } from '@/features/highlights/HighlightsPage'
 import { HomePage } from '@/features/home/HomePage'
-import { MatchDetailPage } from '@/features/matches/MatchDetailPage'
+import { GameDetailPage } from '@/features/games/GameDetailPage'
 import { NotFoundPage } from '@/features/NotFoundPage'
 import { OrganizationDetailPage } from '@/features/organizations/OrganizationDetailPage'
 import { OrganizationsPage } from '@/features/organizations/OrganizationsPage'
 import { PlayerPage } from '@/features/players/PlayerPage'
 import { ProfilePage } from '@/features/profile/ProfilePage'
+import { SchedulePage } from '@/features/schedule/SchedulePage'
 import { SettingsPage } from '@/features/settings/SettingsPage'
 import { fetchMe } from '@/store/authSlice'
 import { useAppDispatch, useAppSelector } from '@/store'
 
-const router = createBrowserRouter([
+const router = createBrowserRouter(
+  [
   {
     element: <GuestRoute />,
     children: [
@@ -43,9 +45,10 @@ const router = createBrowserRouter([
         element: <AppLayout />,
         children: [
           { path: '/', element: <HomePage /> },
+          { path: '/schedule', element: <SchedulePage /> },
           { path: '/organizations', element: <OrganizationsPage /> },
           { path: '/organizations/:slug', element: <OrganizationDetailPage /> },
-          { path: '/matches/:id', element: <MatchDetailPage /> },
+          { path: '/games/:id', element: <GameDetailPage /> },
           { path: '/players/:id', element: <PlayerPage /> },
           { path: '/highlights', element: <HighlightsPage /> },
           { path: '/profile', element: <ProfilePage /> },
@@ -55,7 +58,10 @@ const router = createBrowserRouter([
       },
     ],
   },
-])
+  ],
+  // GitHub Pages alt yolu (/hali-saha/) — vite.config.ts içindeki `base` değerinden gelir
+  { basename: import.meta.env.BASE_URL },
+)
 
 export default function App() {
   const dispatch = useAppDispatch()

@@ -1,8 +1,12 @@
 {
-  "app": { "name": "Pitch Stats", "tagline": "Watch your match, see your stats" },
+  "app": {
+    "name": "Pitch Stats",
+    "tagline": "Watch your match, see your stats"
+  },
   "nav": {
     "home": "Home",
-    "matches": "Matches",
+    "schedule": "Schedule",
+    "games": "Matches",
     "organizations": "Organizations",
     "highlights": "Highlights",
     "profile": "Profile",
@@ -29,12 +33,12 @@
     "passwordTooShort": "Password must be at least 8 characters."
   },
   "home": {
-    "recentMatches": "Recent matches",
+    "recentGames": "Recent matches",
     "latestHighlights": "Latest highlights",
     "topScorers": "Top scorers",
     "seeAll": "See all"
   },
-  "match": {
+  "game": {
     "timeline": "Timeline",
     "lineups": "Lineups",
     "stats": "Stats",
@@ -50,9 +54,9 @@
     "jumpTo": "Jump to {{time}} in video"
   },
   "player": {
-    "matches": "Matches",
+    "games": "Matches",
     "totals": "Career totals",
-    "recentMatches": "Recent matches",
+    "recentGames": "Recent matches",
     "position": {
       "GK": "Goalkeeper",
       "DF": "Defender",
@@ -107,5 +111,33 @@
     "notFound": "Page not found",
     "goHome": "Go to home page",
     "vs": "vs"
+  },
+  "schedule": {
+    "title": "Match schedule",
+    "thisWeek": "This week",
+    "prevWeek": "Previous week",
+    "nextWeek": "Next week",
+    "from": "From",
+    "to": "To",
+    "apply": "Show",
+    "empty": "No matches scheduled in this date range.",
+    "today": "Today",
+    "format": "{{n}}-a-side",
+    "capacity": "{{count}} players",
+    "duration": "{{min}} min",
+    "registered": "{{count}}/{{capacity}} signed up",
+    "spotsLeft_one": "{{count}} spot left",
+    "spotsLeft_other": "{{count}} spots left",
+    "full": "Full",
+    "register": "Sign up",
+    "unregister": "Cancel sign-up",
+    "youAreIn": "You're in",
+    "started": "Started / over",
+    "tbd": "TBD",
+    "registerError": "Couldn't sign you up. The match may be full.",
+    "gameCount_one": "{{count}} match",
+    "gameCount_other": "{{count}} matches",
+    "invalidRange": "End date can't be before start date.",
+    "rule": "You can register or cancel until kick-off."
   }
 }

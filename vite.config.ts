@@ -4,6 +4,7 @@ import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
+   base: '/hali-saha/',
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
@@ -12,15 +13,10 @@ export default defineConfig({
   },
   server: {
     port: 5173,
-    // Laravel backend hazır olduğunda /api, /sanctum, /login vb. istekleri oraya yönlendirir.
-    // Böylece cookie tabanlı Sanctum auth aynı origin üzerinden sorunsuz çalışır.
+    // Geliştirmede /api istekleri yerel Laravel'e gider (VITE_API_URL boşken).
+    // Canlıda VITE_API_URL backend adresidir; token (Bearer) auth olduğu için farklı alan adı sorun değil.
     proxy: {
       '/api': 'http://localhost:8000',
-      '/sanctum': 'http://localhost:8000',
-      '/login': 'http://localhost:8000',
-      '/logout': 'http://localhost:8000',
-      '/forgot-password': 'http://localhost:8000',
-      '/reset-password': 'http://localhost:8000',
     },
   },
 })

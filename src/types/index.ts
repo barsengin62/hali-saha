@@ -1,11 +1,14 @@
 /**
- * Laravel tarafındaki tablolarla birebir eşleşen tipler.
- * API Resource'lar bu şekilde JSON döndürmeli.
+ * Laravel API Resource'larıyla birebir aynı tipler (halisaha-api/app/Http/Resources).
+ * Backend isimlendirmesi esas: game (maç), starts_at, pitch → venue.
  */
 
 export type Position = 'GK' | 'DF' | 'MF' | 'FW'
 export type Foot = 'right' | 'left' | 'both'
-export type MatchStatus = 'scheduled' | 'played' | 'analyzed'
+export type GameStatus = 'scheduled' | 'played' | 'analyzed'
+export type OrganizationType = 'league' | 'tournament' | 'random'
+
+// ---------- Kullanıcı (UserResource) ----------
 
 export interface User {
   id: number
@@ -22,89 +25,153 @@ export interface UserSettings {
   notify_new_match: boolean
 }
 
+/** POST /api/auth/login */
+export interface LoginResponse {
+  token: string
+  token_type: 'Bearer'
+  expires_at: string
+  user: User
+}
+
+// ---------- Tanımlar ----------
+
 export interface Player {
   id: number
   nickname: string
   full_name: string
   position: Position
+  position_number: number | null
   preferred_foot: Foot
   avatar_url: string | null
+}
+
+/** Takım birden fazla organizasyonda olabilir; organizasyon bilgisi takımda tutulmaz */
+export interface Team {
+  id: number
+  name: string
+  color: string // hex — forma rengi
 }
 
 export interface Organization {
   id: number
   slug: string
   name: string
-  description: string
+  type: OrganizationType
+  description: string | null
   logo_url: string | null
+  /** Sadece GET /api/organizations/{slug} */
+  teams?: Team[]
 }
 
-export interface Team {
-  id: number
-  organization_id: number
-  name: string
-  color: string // hex — forma rengi
-}
-
-/** Dinamik istatistik türü: gol, asist, kurtarış, sarı kart… Admin panelden eklenir. */
+/** Dinamik istatistik türü: gol, asist, kurtarış, sarı kart… Admin panelden eklenir. Sadece görünür türler gelir. */
 export interface StatType {
   id: number
-  key: string
+  slug: string
   name: string
-  icon: string // emoji veya ikon adı
+  icon: string | null // emoji
   color: string
-  is_visible: boolean
 }
 
-export interface MatchEvent {
+export interface Venue {
   id: number
-  match_id: number
+  name: string
+  address: string | null
+}
+
+export interface Pitch {
+  id: number
+  name: string
+  is_indoor: boolean
+  surface: string | null
+  venue: Venue
+}
+
+// ---------- Maç (GameResource / GameDetailResource) ----------
+
+/** Takvim kartı için kayıt durumu (giriş yapmış kullanıcıya göre) */
+export interface GameRegistration {
+  count: number
+  capacity: number
+  spots_left: number
+  is_registered: boolean
+  /** Kayıt şu an açık mı (planlandı, başlamadı, yer var) */
+  is_open: boolean
+  /** Kayıtlıysa kayıttan çıkabilir mi (planlandı, başlamadı) */
+  can_unregister: boolean
+}
+
+export interface Game {
+  id: number
+  status: GameStatus
+  starts_at: string // ISO tarih-saat
+  duration_min: number
+  /** Takım başına oyuncu sayısı: 7 → 7v7 */
+  format: number
+  capacity: number
+  organization: Pick<Organization, 'id' | 'slug' | 'name'>
+  pitch: Pitch
+  /** Takımlar henüz belli değilse null — "Belirlenecek" gösterilir */
+  home_team: Team | null
+  away_team: Team | null
+  home_score: number | null
+  away_score: number | null
+  /** /api/games ve kayıt cevaplarında var; iç içe maçlarda (highlight, oyuncu) yok */
+  registration?: GameRegistration
+}
+
+export interface GameEvent {
+  id: number
+  game_id: number
   player_id: number
   team_id: number
   stat_type_id: number
-  minute: number
-  video_time_sec: number
-  related_event_id: number | null // gol → asist bağlantısı
+  minute: number | null
+  video_time_sec: number | null
+  related_event_id: number | null // gol ↔ asist bağlantısı
 }
 
-export interface MatchVideo {
+export interface GameVideo {
   id: number
-  match_id: number
-  provider: 'file' | 'youtube' | 'bunny'
+  provider: 'file' | 'youtube'
+  /** YouTube'da kaydedilen link, dosyada oynatılabilir adres */
   url: string
-  duration_sec: number
+  youtube_id: string | null
+  thumbnail_url: string | null
+  duration_sec: number | null
+}
+
+/** Kadrodaki oyuncu + bu maçtaki pozisyonu ve sahadaki yeri (% olarak) */
+export interface LineupPlayer extends Player {
+  pitch: { position: Position | null; x: number | null; y: number | null }
 }
 
 export interface Highlight {
   id: number
-  match_id: number
-  match_event_id: number | null
+  game_id: number
+  game_event_id: number | null
   title: string
   start_sec: number
   end_sec: number
   thumbnail_url: string | null
 }
 
-export interface MatchSummary {
-  id: number
-  organization: Pick<Organization, 'id' | 'slug' | 'name'>
-  venue: string
-  played_at: string
-  status: MatchStatus
-  home_team: Team
-  away_team: Team
-  home_score: number | null
-  away_score: number | null
+/** GET /api/highlights: maç ve video bilgisiyle */
+export interface HighlightWithGame extends Highlight {
+  game: Game
+  video: GameVideo | null
 }
 
-export interface MatchDetail extends MatchSummary {
-  lineups: { team_id: number; players: Player[] }[]
-  events: MatchEvent[]
-  video: MatchVideo | null
+export interface GameDetail extends Game {
+  lineups: { team_id: number; players: LineupPlayer[] }[]
+  events: GameEvent[]
+  video: GameVideo | null
   highlights: Highlight[]
 }
 
+// ---------- İstatistik ----------
+
 export interface StandingRow {
+  rank: number
   team: Team
   played: number
   won: number
@@ -112,28 +179,41 @@ export interface StandingRow {
   lost: number
   goals_for: number
   goals_against: number
+  goal_difference: number
   points: number
 }
 
 export interface LeaderboardRow {
+  rank: number
   player: Player
+  /** Seçilen kapsamda en son oynadığı takım */
   team: Team | null
   value: number
 }
 
 export interface PlayerStats {
   player: Player
-  matches_played: number
+  games_played: number
   totals: { stat_type: StatType; value: number }[]
-  recent_matches: MatchSummary[]
+  recent_games: Game[]
 }
 
-export interface HighlightWithMatch extends Highlight {
-  match: MatchSummary
-  video_url: string
-}
+// ---------- Ortak ----------
 
+/** Laravel sayfalama biçimi (Resource collection + paginate) */
 export interface Paginated<T> {
   data: T[]
-  meta: { current_page: number; last_page: number; total: number }
+  links: { first: string | null; last: string | null; prev: string | null; next: string | null }
+  meta: { current_page: number; last_page: number; per_page: number; total: number }
+}
+
+/** GET /api/games filtreleri */
+export interface GameQuery {
+  status?: GameStatus[]
+  organization?: string
+  from?: string // YYYY-MM-DD
+  to?: string
+  sort?: 'starts_at' | '-starts_at'
+  page?: number
+  per_page?: number
 }

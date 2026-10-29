@@ -1,4 +1,4 @@
-import { Film, Home, LogOut, Menu, Settings, Trophy, User, X } from 'lucide-react'
+import { CalendarDays, Film, Home, LogOut, Menu, Settings, Trophy, User, X } from 'lucide-react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { NavLink, Outlet, useNavigate } from 'react-router-dom'
@@ -9,6 +9,7 @@ import { Button } from '../ui/button'
 
 const links = [
   { to: '/', key: 'nav.home', icon: Home, end: true },
+  { to: '/schedule', key: 'nav.schedule', icon: CalendarDays },
   { to: '/organizations', key: 'nav.organizations', icon: Trophy },
   { to: '/highlights', key: 'nav.highlights', icon: Film },
   { to: '/profile', key: 'nav.profile', icon: User },

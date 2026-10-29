@@ -4,7 +4,7 @@ import { api } from '@/api'
 import { AsyncState } from '@/components/AsyncState'
 import { HighlightCard } from '@/components/HighlightCard'
 import { Leaderboard } from '@/components/Leaderboard'
-import { MatchCard } from '@/components/MatchCard'
+import { GameCard } from '@/components/GameCard'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { useAsync } from '@/hooks/useAsync'
 import { useAppSelector } from '@/store'
@@ -16,8 +16,8 @@ export function HomePage() {
   const { data, loading, error, reload } = useAsync(
     () =>
       Promise.all([
-        api.matches(),
-        api.highlights({ limit: 3 }),
+        api.games({ status: ['played', 'analyzed'], per_page: 6 }),
+        api.highlights({ per_page: 3 }),
         api.leaderboard({ stat: 'goal', limit: 5 }),
       ]),
     [],
@@ -37,10 +37,10 @@ export function HomePage() {
           <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
             <div className="space-y-8">
               <section>
-                <h2 className="font-display mb-3 text-2xl font-bold uppercase">{t('home.recentMatches')}</h2>
+                <h2 className="font-display mb-3 text-2xl font-bold uppercase">{t('home.recentGames')}</h2>
                 <div className="grid gap-3 sm:grid-cols-2">
-                  {data[0].data.slice(0, 6).map((m) => (
-                    <MatchCard key={m.id} match={m} />
+                  {data[0].data.map((g) => (
+                    <GameCard key={g.id} game={g} />
                   ))}
                 </div>
               </section>
@@ -53,7 +53,7 @@ export function HomePage() {
                   </Link>
                 </div>
                 <div className="grid gap-3 sm:grid-cols-3">
-                  {data[1].map((h) => (
+                  {data[1].data.map((h) => (
                     <HighlightCard key={h.id} highlight={h} />
                   ))}
                 </div>

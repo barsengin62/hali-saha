@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 import { api } from '@/api'
 import { AsyncState } from '@/components/AsyncState'
-import { MatchCard } from '@/components/MatchCard'
+import { GameCard } from '@/components/GameCard'
 import { useAsync } from '@/hooks/useAsync'
 import type { PlayerStats } from '@/types'
 
@@ -43,21 +43,19 @@ export function PlayerView({ stats }: { stats: PlayerStats }) {
       <section>
         <h2 className="font-display mb-3 text-2xl font-bold uppercase">{t('player.totals')}</h2>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
-          <StatTile label={t('player.matches')} value={stats.matches_played} icon="🏟️" />
-          {stats.totals
-            .filter((x) => x.stat_type.is_visible)
-            .map((x) => (
-              <StatTile key={x.stat_type.id} label={x.stat_type.name} value={x.value} icon={x.stat_type.icon} />
-            ))}
+          <StatTile label={t('player.games')} value={stats.games_played} icon="🏟️" />
+          {stats.totals.map((x) => (
+            <StatTile key={x.stat_type.id} label={x.stat_type.name} value={x.value} icon={x.stat_type.icon ?? ''} />
+          ))}
         </div>
       </section>
 
-      {stats.recent_matches.length > 0 && (
+      {stats.recent_games.length > 0 && (
         <section>
-          <h2 className="font-display mb-3 text-2xl font-bold uppercase">{t('player.recentMatches')}</h2>
+          <h2 className="font-display mb-3 text-2xl font-bold uppercase">{t('player.recentGames')}</h2>
           <div className="grid gap-3 sm:grid-cols-2">
-            {stats.recent_matches.map((m) => (
-              <MatchCard key={m.id} match={m} />
+            {stats.recent_games.map((g) => (
+              <GameCard key={g.id} game={g} />
             ))}
           </div>
         </section>

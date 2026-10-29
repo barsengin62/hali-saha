@@ -1,27 +1,53 @@
 import axios from 'axios'
+import i18n from '@/i18n'
 import { env } from '@/lib/env'
 
 /**
- * Laravel Sanctum (SPA, cookie tabanlı) ile konuşan axios örneği.
- * - withCredentials: oturum cookie'si her istekte gider
- * - withXSRFToken: Laravel'in XSRF-TOKEN cookie'sini X-XSRF-TOKEN header'ına koyar
+ * Laravel Sanctum token (Bearer) ile konuşan axios örneği (HS-34).
+ * - Token localStorage'da; her istekte Authorization başlığı eklenir
+ * - Accept-Language: giriş yapılmadan önce de API mesajları seçili dilde gelir
  */
+const TOKEN_KEY = 'auth_token'
+
+export const tokenStore = {
+  get: (): string | null => {
+    try {
+      return localStorage.getItem(TOKEN_KEY)
+    } catch {
+      return null
+    }
+  },
+  set: (token: string) => {
+    try {
+      localStorage.setItem(TOKEN_KEY, token)
+    } catch {
+      /* tarayıcı depolamayı engellediyse oturum sadece bu sayfada kalır */
+    }
+  },
+  clear: () => {
+    try {
+      localStorage.removeItem(TOKEN_KEY)
+    } catch {
+      /* yok say */
+    }
+  },
+}
+
 export const http = axios.create({
   baseURL: env.apiUrl,
-  withCredentials: true,
-  withXSRFToken: true,
   headers: {
     Accept: 'application/json',
-    'X-Requested-With': 'XMLHttpRequest',
   },
 })
 
-/** Sanctum: login/logout gibi state değiştiren isteklerden önce CSRF cookie'sini al. */
-export async function ensureCsrfCookie() {
-  await http.get('/sanctum/csrf-cookie')
-}
+http.interceptors.request.use((config) => {
+  const token = tokenStore.get()
+  if (token) config.headers.Authorization = `Bearer ${token}`
+  config.headers['Accept-Language'] = i18n.language
+  return config
+})
 
-/** 401 gelirse uygulamanın geri kalanına haber ver (store bunu dinleyip çıkış yapar). */
+/** 401 gelirse token silinir ve uygulamanın geri kalanına haber verilir (store çıkış yapar). */
 type UnauthorizedListener = () => void
 let onUnauthorized: UnauthorizedListener | null = null
 export function setUnauthorizedHandler(fn: UnauthorizedListener) {
@@ -32,13 +58,14 @@ http.interceptors.response.use(
   (res) => res,
   (error) => {
     if (axios.isAxiosError(error) && error.response?.status === 401) {
+      tokenStore.clear()
       onUnauthorized?.()
     }
     return Promise.reject(error)
   },
 )
 
-/** Laravel validation hatasından (422) ilk mesajı çıkarır. */
+/** Laravel doğrulama / iş kuralı hatasından (422) ilk mesajı çıkarır. */
 export function getErrorMessage(error: unknown, fallback: string): string {
   if (axios.isAxiosError(error)) {
     const data = error.response?.data as

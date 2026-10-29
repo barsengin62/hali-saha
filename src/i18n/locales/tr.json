@@ -1,8 +1,12 @@
 {
-  "app": { "name": "Halı Saha", "tagline": "Maçını izle, istatistiğini gör" },
+  "app": {
+    "name": "Halı Saha",
+    "tagline": "Maçını izle, istatistiğini gör"
+  },
   "nav": {
     "home": "Ana sayfa",
-    "matches": "Maçlar",
+    "schedule": "Maç takvimi",
+    "games": "Maçlar",
     "organizations": "Organizasyonlar",
     "highlights": "Önemli anlar",
     "profile": "Profil",
@@ -29,12 +33,12 @@
     "passwordTooShort": "Şifre en az 8 karakter olmalı."
   },
   "home": {
-    "recentMatches": "Son maçlar",
+    "recentGames": "Son maçlar",
     "latestHighlights": "Son önemli anlar",
     "topScorers": "Gol krallığı",
     "seeAll": "Tümünü gör"
   },
-  "match": {
+  "game": {
     "timeline": "Maç akışı",
     "lineups": "Kadrolar",
     "stats": "İstatistikler",
@@ -50,9 +54,9 @@
     "jumpTo": "Videoda {{time}}'e git"
   },
   "player": {
-    "matches": "Maç",
+    "games": "Maç",
     "totals": "Toplam istatistikler",
-    "recentMatches": "Son maçları",
+    "recentGames": "Son maçları",
     "position": {
       "GK": "Kaleci",
       "DF": "Defans",
@@ -107,5 +111,33 @@
     "notFound": "Sayfa bulunamadı",
     "goHome": "Ana sayfaya dön",
     "vs": "vs"
+  },
+  "schedule": {
+    "title": "Maç takvimi",
+    "thisWeek": "Bu hafta",
+    "prevWeek": "Önceki hafta",
+    "nextWeek": "Sonraki hafta",
+    "from": "Başlangıç",
+    "to": "Bitiş",
+    "apply": "Göster",
+    "empty": "Bu tarih aralığında planlanmış maç yok.",
+    "today": "Bugün",
+    "format": "{{n}}v{{n}}",
+    "capacity": "{{count}} kişilik",
+    "duration": "{{min}} dk",
+    "registered": "{{count}}/{{capacity}} kayıtlı",
+    "spotsLeft_one": "{{count}} yer kaldı",
+    "spotsLeft_other": "{{count}} yer kaldı",
+    "full": "Dolu",
+    "register": "Kayıt ol",
+    "unregister": "Kaydı iptal et",
+    "youAreIn": "Kayıtlısın",
+    "started": "Başladı / bitti",
+    "tbd": "Belirlenecek",
+    "registerError": "Kayıt yapılamadı. Maç dolmuş olabilir.",
+    "gameCount_one": "{{count}} maç",
+    "gameCount_other": "{{count}} maç",
+    "invalidRange": "Bitiş tarihi başlangıçtan önce olamaz.",
+    "rule": "Kayıt ve kayıttan çıkma maç başlayana kadar açık."
   }
 }

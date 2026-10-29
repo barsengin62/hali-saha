@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { api } from '@/api'
-import type { User } from '@/types'
+import type { User, UserSettings } from '@/types'
 
 type AuthStatus = 'idle' | 'checking' | 'authenticated' | 'guest'
 
@@ -11,7 +11,7 @@ interface AuthState {
 
 const initialState: AuthState = { user: null, status: 'idle' }
 
-/** Uygulama açılınca mevcut oturumu kontrol eder (Sanctum cookie hâlâ geçerli mi?). */
+/** Uygulama açılınca mevcut oturumu kontrol eder (kayıtlı token hâlâ geçerli mi?). */
 export const fetchMe = createAsyncThunk('auth/me', () => api.me())
 
 export const login = createAsyncThunk(
@@ -28,7 +28,7 @@ export const updateProfile = createAsyncThunk(
 
 export const updateSettings = createAsyncThunk(
   'auth/updateSettings',
-  (settings: User['settings']) => api.updateSettings(settings),
+  (patch: Partial<UserSettings>) => api.updateSettings(patch),
 )
 
 const authSlice = createSlice({

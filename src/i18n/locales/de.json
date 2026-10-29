@@ -1,8 +1,12 @@
 {
-  "app": { "name": "Kleinfeld", "tagline": "Spiel ansehen, Statistik sehen" },
+  "app": {
+    "name": "Kleinfeld",
+    "tagline": "Spiel ansehen, Statistik sehen"
+  },
   "nav": {
     "home": "Startseite",
-    "matches": "Spiele",
+    "schedule": "Spielplan",
+    "games": "Spiele",
     "organizations": "Organisationen",
     "highlights": "Highlights",
     "profile": "Profil",
@@ -29,12 +33,12 @@
     "passwordTooShort": "Das Passwort muss mindestens 8 Zeichen lang sein."
   },
   "home": {
-    "recentMatches": "Letzte Spiele",
+    "recentGames": "Letzte Spiele",
     "latestHighlights": "Neueste Highlights",
     "topScorers": "Torschützenliste",
     "seeAll": "Alle anzeigen"
   },
-  "match": {
+  "game": {
     "timeline": "Spielverlauf",
     "lineups": "Aufstellungen",
     "stats": "Statistiken",
@@ -50,9 +54,9 @@
     "jumpTo": "Im Video zu {{time}} springen"
   },
   "player": {
-    "matches": "Spiele",
+    "games": "Spiele",
     "totals": "Gesamtstatistik",
-    "recentMatches": "Letzte Spiele",
+    "recentGames": "Letzte Spiele",
     "position": {
       "GK": "Tormann",
       "DF": "Verteidigung",
@@ -107,5 +111,33 @@
     "notFound": "Seite nicht gefunden",
     "goHome": "Zur Startseite",
     "vs": "gg."
+  },
+  "schedule": {
+    "title": "Spielplan",
+    "thisWeek": "Diese Woche",
+    "prevWeek": "Vorige Woche",
+    "nextWeek": "Nächste Woche",
+    "from": "Von",
+    "to": "Bis",
+    "apply": "Anzeigen",
+    "empty": "In diesem Zeitraum sind keine Spiele geplant.",
+    "today": "Heute",
+    "format": "{{n}} gegen {{n}}",
+    "capacity": "{{count}} Spieler",
+    "duration": "{{min}} Min.",
+    "registered": "{{count}}/{{capacity}} angemeldet",
+    "spotsLeft_one": "{{count}} Platz frei",
+    "spotsLeft_other": "{{count}} Plätze frei",
+    "full": "Ausgebucht",
+    "register": "Anmelden",
+    "unregister": "Abmelden",
+    "youAreIn": "Du bist dabei",
+    "started": "Begonnen / vorbei",
+    "tbd": "Offen",
+    "registerError": "Anmeldung nicht möglich. Das Spiel ist eventuell voll.",
+    "gameCount_one": "{{count}} Spiel",
+    "gameCount_other": "{{count}} Spiele",
+    "invalidRange": "Das Enddatum darf nicht vor dem Startdatum liegen.",
+    "rule": "An- und Abmeldung sind bis Spielbeginn möglich."
   }
 }

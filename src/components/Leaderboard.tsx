@@ -5,14 +5,14 @@ import { TeamBadge } from './TeamBadge'
 export function Leaderboard({ rows, icon }: { rows: LeaderboardRow[]; icon?: string }) {
   return (
     <ol className="divide-y divide-border">
-      {rows.map((row, i) => (
+      {rows.map((row) => (
         <li key={row.player.id}>
           <Link
             to={`/players/${row.player.id}`}
             className="flex items-center gap-3 rounded-md px-2 py-2.5 transition hover:bg-muted"
           >
             <span className="font-display w-6 text-center text-lg font-bold text-muted-foreground tabular-nums">
-              {i + 1}
+              {row.rank}
             </span>
             <span className="min-w-0 flex-1">
               <span className="block truncate font-medium">{row.player.nickname}</span>
