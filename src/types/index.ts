@@ -101,11 +101,13 @@ export interface GameRegistration {
   spots_left: number
   /** Kullanıcının talebi; talep yoksa null */
   request_status: RegistrationStatus | null
+  /** HS-49: admin "Kadrodan çıkılamaz" dedi mi (kadroları oluşturulmuş maçta) */
+  squad_locked: boolean
   /** Kayıt şu an açık mı (planlandı, başlamadı, yer var) */
   is_open: boolean
   /** Talep gönderebilir mi: kayıt açık ve talebi yok ya da reddedilmiş */
   can_request: boolean
-  /** Talebini geri çekebilir mi: bekleyen / onaylı talep, maç planlandı ve başlamadı */
+  /** Talebini geri çekebilir / kadrodan çıkabilir mi (planlandı: bekleyen / onaylı; kadrolar belli: onaylı ve kilit yok) */
   can_withdraw: boolean
 }
 

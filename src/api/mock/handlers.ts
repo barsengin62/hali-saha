@@ -14,7 +14,7 @@ import type {
   User,
 } from '@/types'
 import { games, lineupOf, organizations, organizationTeams, players, SAMPLE_VIDEO_URL, statTypes, teams } from './data'
-import { isChangeable, myRequest, scheduledGames, setRequest, withRegistration } from './schedule'
+import { canWithdraw, isChangeable, myRequest, scheduledGames, setRequest, withRegistration } from './schedule'
 
 const wait = (ms = 300) => new Promise((r) => setTimeout(r, ms))
 
@@ -267,9 +267,8 @@ export const mockApi: ApiClient = {
     const game = scheduledGames.find((g) => g.id === id) ?? notFound()
     const mine = myRequest(id)
     if (mine === null) return withRegistration(game)
-    if (mine !== 'rejected') {
-      if (game.status === 'lineups_set') unprocessable('registration', 'Kadrolar oluşturuldu; kayıt değiştirilemez.')
-      if (!isChangeable(game)) unprocessable('registration', 'Maç başladı; kayıt değiştirilemez.')
+    if (mine !== 'rejected' && !canWithdraw(game, mine)) {
+      unprocessable('registration', game.status === 'lineups_set' ? 'Kadrodan çıkış kapatıldı.' : 'Maç başladı; kayıt değiştirilemez.')
     }
     setRequest(id, null)
     return withRegistration(game)

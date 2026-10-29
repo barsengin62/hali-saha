@@ -142,7 +142,7 @@
     "rule": "Kayıt bir taleptir; admin onaylayınca kadroya girersin. Geri çekme maç başlayana kadar açık.",
     "lineupsSet": "Kadrolar belli oldu",
     "inSquad": "Kadrodasın",
-    "lineupsRule": "Kadrolar belli oldu; kayıt ve kayıttan çıkma kapalı.",
+    "lineupsRule": "Kadrolar belli oldu; yeni kayıt kapalı. Kadrodan çıkış admin kapatana kadar açık.",
     "pending": "Onay bekliyor",
     "withdraw": "Talebi geri çek",
     "leave": "Kadrodan çık",
@@ -156,6 +156,7 @@
       "cancel": "Vazgeç"
     },
     "details": "Maç detayı",
-    "viewLineup": "Kadroyu gör"
+    "viewLineup": "Kadroyu gör",
+    "squadLockedRule": "Kadrolar belli oldu; kadrodan çıkış kapatıldı."
   }
 }

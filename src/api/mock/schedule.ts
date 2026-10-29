@@ -90,6 +90,12 @@ export function myRequest(gameId: number): RegistrationStatus | null {
   return registrations.get(gameId)?.mine ?? null
 }
 
+/** HS-49: kadroları belli maçta onaylı kullanıcı (kilit yok) başlamadan çıkabilir */
+export function canWithdraw(game: Game, mine: RegistrationStatus | null): boolean {
+  if (game.status === 'lineups_set') return mine === 'approved' && new Date(game.starts_at).getTime() > Date.now()
+  return (mine === 'pending' || mine === 'approved') && isChangeable(game)
+}
+
 /** Backend'deki GameResource.registration ile aynı alanlar */
 export function withRegistration(game: Game): Game {
   const state = registrations.get(game.id) ?? { count: 0, mine: null }
@@ -102,9 +108,10 @@ export function withRegistration(game: Game): Game {
       capacity: game.capacity,
       spots_left: spotsLeft,
       request_status: state.mine,
+      squad_locked: false, // mock'ta admin kilidi yok
       is_open: isOpen,
       can_request: isOpen && (state.mine === null || state.mine === 'rejected'),
-      can_withdraw: (state.mine === 'pending' || state.mine === 'approved') && isChangeable(game),
+      can_withdraw: canWithdraw(game, state.mine),
     },
   }
 }

@@ -26,7 +26,7 @@ export function ScheduledGameCard({ game, busy, onRequest, onWithdraw }: Props) 
 
   // Kayıt durumu API'den (GameResource.registration, HS-37 / HS-42); kurallar backend'de
   const registration = game.registration ?? {
-    count: 0, capacity: game.capacity, spots_left: game.capacity, request_status: null,
+    count: 0, capacity: game.capacity, spots_left: game.capacity, request_status: null, squad_locked: false,
     is_open: false, can_request: false, can_withdraw: false,
   }
   const status = registration.request_status
@@ -139,15 +139,21 @@ export function ScheduledGameCard({ game, busy, onRequest, onWithdraw }: Props) 
               {t('schedule.started')}
             </Button>
           ) : lineupsSet ? (
-            // HS-40: kadro saha üzerinde maç detayında
-            <div className="flex items-center gap-2">
+            // HS-40: kadro saha üzerinde maç detayında; HS-49: kilit yoksa kadrodan çıkılabilir
+            <div className="space-y-2">
               {status === 'approved' && (
-                <span className="inline-flex flex-1 items-center gap-1.5 text-sm font-semibold text-primary">
-                  <CheckCircle2 className="h-4 w-4" aria-hidden />
-                  {t('schedule.inSquad')}
-                </span>
+                <div className="flex items-center gap-2">
+                  <span className="inline-flex flex-1 items-center gap-1.5 text-sm font-semibold text-primary">
+                    <CheckCircle2 className="h-4 w-4" aria-hidden />
+                    {t('schedule.inSquad')}
+                  </span>
+                  <Button variant="outline" size="sm" onClick={onWithdraw} disabled={busy || !registration.can_withdraw}>
+                    {busy && <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden />}
+                    {t('schedule.leave')}
+                  </Button>
+                </div>
               )}
-              <Link {...detail} className={cn(buttonVariants({ variant: status === 'approved' ? 'outline' : 'default', size: status === 'approved' ? 'sm' : 'default' }), status !== 'approved' && 'w-full')}>
+              <Link {...detail} className={cn(buttonVariants({ variant: status === 'approved' ? 'outline' : 'default' }), 'w-full')}>
                 <Lock className="h-4 w-4" aria-hidden />
                 {t('schedule.viewLineup')}
               </Link>
@@ -186,7 +192,7 @@ export function ScheduledGameCard({ game, busy, onRequest, onWithdraw }: Props) 
           {/* Kural (HS-37 / HS-42 / HS-44) */}
           {!hasStarted && (
             <p className="text-center text-xs text-muted-foreground">
-              {t(lineupsSet ? 'schedule.lineupsRule' : 'schedule.rule')}
+              {t(lineupsSet ? (registration.squad_locked ? 'schedule.squadLockedRule' : 'schedule.lineupsRule') : 'schedule.rule')}
             </p>
           )}
         </div>

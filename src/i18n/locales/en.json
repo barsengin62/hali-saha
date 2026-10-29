@@ -142,7 +142,7 @@
     "rule": "Signing up sends a request; once an admin approves it you are in the squad. You can withdraw until kick-off.",
     "lineupsSet": "Lineups set",
     "inSquad": "You're in the squad",
-    "lineupsRule": "The lineups are set; signing up and leaving are closed.",
+    "lineupsRule": "The lineups are set; no new sign-ups. You can leave until an admin closes it.",
     "pending": "Awaiting approval",
     "withdraw": "Withdraw request",
     "leave": "Leave the squad",
@@ -156,6 +156,7 @@
       "cancel": "Cancel"
     },
     "details": "Match details",
-    "viewLineup": "View lineup"
+    "viewLineup": "View lineup",
+    "squadLockedRule": "The lineups are set; leaving the squad is closed."
   }
 }

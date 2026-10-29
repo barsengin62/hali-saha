@@ -142,7 +142,7 @@
     "rule": "Die Anmeldung ist eine Anfrage; nach Bestätigung durch den Admin bist du im Kader. Zurückziehen ist bis zum Anpfiff möglich.",
     "lineupsSet": "Aufstellung steht",
     "inSquad": "Du bist im Kader",
-    "lineupsRule": "Die Aufstellung steht; An- und Abmeldung sind geschlossen.",
+    "lineupsRule": "Die Aufstellung steht; keine neuen Anmeldungen. Austritt ist möglich, bis der Admin ihn schließt.",
     "pending": "Wartet auf Bestätigung",
     "withdraw": "Anfrage zurückziehen",
     "leave": "Aus dem Kader austreten",
@@ -156,6 +156,7 @@
       "cancel": "Abbrechen"
     },
     "details": "Spieldetails",
-    "viewLineup": "Aufstellung ansehen"
+    "viewLineup": "Aufstellung ansehen",
+    "squadLockedRule": "Die Aufstellung steht; der Austritt ist geschlossen."
   }
 }
