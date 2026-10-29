@@ -41,6 +41,8 @@
   "game": {
     "timeline": "Timeline",
     "lineups": "Lineups",
+    "lineupsNotSet": "The lineups have not been set yet.",
+    "lineupEvent": "{{count}} × {{type}}",
     "stats": "Stats",
     "video": "Match video",
     "highlights": "Highlights",
@@ -152,6 +154,8 @@
       "any": "No preference",
       "submit": "Send request",
       "cancel": "Cancel"
-    }
+    },
+    "details": "Match details",
+    "viewLineup": "View lineup"
   }
 }

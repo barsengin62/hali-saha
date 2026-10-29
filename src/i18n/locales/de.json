@@ -41,6 +41,8 @@
   "game": {
     "timeline": "Spielverlauf",
     "lineups": "Aufstellungen",
+    "lineupsNotSet": "Die Aufstellungen stehen noch nicht fest.",
+    "lineupEvent": "{{count}} × {{type}}",
     "stats": "Statistiken",
     "video": "Spielvideo",
     "highlights": "Highlights",
@@ -152,6 +154,8 @@
       "any": "Egal",
       "submit": "Anfrage senden",
       "cancel": "Abbrechen"
-    }
+    },
+    "details": "Spieldetails",
+    "viewLineup": "Aufstellung ansehen"
   }
 }

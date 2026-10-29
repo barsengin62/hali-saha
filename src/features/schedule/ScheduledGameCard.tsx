@@ -1,8 +1,9 @@
-import { CheckCircle2, Clock, Hourglass, Loader2, Lock, MapPin, Users, XCircle } from 'lucide-react'
+import { ArrowRight, CheckCircle2, Clock, Hourglass, Loader2, Lock, MapPin, Users, XCircle } from 'lucide-react'
 import { useState, type FormEvent } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Link, useLocation } from 'react-router-dom'
 import { TeamOrTbd } from '@/components/TeamBadge'
-import { Button } from '@/components/ui/button'
+import { Button, buttonVariants } from '@/components/ui/button'
 import { Field, Select } from '@/components/ui/form'
 import { formatTime } from '@/lib/dates'
 import { cn } from '@/lib/utils'
@@ -19,6 +20,9 @@ interface Props {
 export function ScheduledGameCard({ game, busy, onRequest, onWithdraw }: Props) {
   const { t, i18n } = useTranslation()
   const [formOpen, setFormOpen] = useState(false)
+  // HS-40: detay sayfasından aynı haftanın takvimine geri dönülsün
+  const location = useLocation()
+  const detail = { to: `/games/${game.id}`, state: { back: `${location.pathname}${location.search}` } }
 
   // Kayıt durumu API'den (GameResource.registration, HS-37 / HS-42); kurallar backend'de
   const registration = game.registration ?? {
@@ -89,6 +93,17 @@ export function ScheduledGameCard({ game, busy, onRequest, onWithdraw }: Props) 
           </div>
         </div>
 
+        {/* Maç detayı her kartta (başlamış maçlar dahil); kadroları belli, başlamamış maçta altta ayrıca "Kadroyu gör" */}
+        {(!lineupsSet || hasStarted) && (
+          <Link
+            {...detail}
+            className="inline-flex items-center gap-1 self-start text-xs font-medium text-primary hover:underline"
+          >
+            {t('schedule.details')}
+            <ArrowRight className="h-3.5 w-3.5" aria-hidden />
+          </Link>
+        )}
+
         {/* Doluluk */}
         <div className="space-y-1.5">
           <div className="flex items-center justify-between text-sm">
@@ -124,17 +139,19 @@ export function ScheduledGameCard({ game, busy, onRequest, onWithdraw }: Props) 
               {t('schedule.started')}
             </Button>
           ) : lineupsSet ? (
-            status === 'approved' ? (
-              <p className="inline-flex w-full items-center justify-center gap-1.5 py-2 text-sm font-semibold text-primary">
-                <CheckCircle2 className="h-4 w-4" aria-hidden />
-                {t('schedule.inSquad')}
-              </p>
-            ) : (
-              <Button variant="outline" className="w-full" disabled>
+            // HS-40: kadro saha üzerinde maç detayında
+            <div className="flex items-center gap-2">
+              {status === 'approved' && (
+                <span className="inline-flex flex-1 items-center gap-1.5 text-sm font-semibold text-primary">
+                  <CheckCircle2 className="h-4 w-4" aria-hidden />
+                  {t('schedule.inSquad')}
+                </span>
+              )}
+              <Link {...detail} className={cn(buttonVariants({ variant: status === 'approved' ? 'outline' : 'default', size: status === 'approved' ? 'sm' : 'default' }), status !== 'approved' && 'w-full')}>
                 <Lock className="h-4 w-4" aria-hidden />
-                {t('schedule.lineupsSet')}
-              </Button>
-            )
+                {t('schedule.viewLineup')}
+              </Link>
+            </div>
           ) : formOpen ? (
             <RequestForm game={game} busy={busy} onSubmit={submit} onCancel={() => setFormOpen(false)} />
           ) : status === 'approved' || status === 'pending' ? (

@@ -122,7 +122,7 @@ export function rosterOf(teamId: number): Player[] {
 }
 
 /** Maç kadrosu: oyuncu + bu maçtaki pozisyonu ve sahadaki yeri (deplasman sağ yarıda) */
-function lineupOf(teamId: number, side: 'home' | 'away'): LineupPlayer[] {
+export function lineupOf(teamId: number, side: 'home' | 'away'): LineupPlayer[] {
   return rosterOf(teamId).map((p, i) => {
     const [x, y] = spotsPerTeam[i]
     return { ...p, pitch: { position: p.position, x: side === 'home' ? x : 100 - x, y } }

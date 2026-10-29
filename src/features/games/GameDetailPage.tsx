@@ -1,14 +1,15 @@
 import { ArrowLeft, MapPin, Play } from 'lucide-react'
 import { useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link, useParams, useSearchParams } from 'react-router-dom'
+import { Link, useLocation, useParams, useSearchParams } from 'react-router-dom'
 import { api } from '@/api'
 import { AsyncState } from '@/components/AsyncState'
-import { TeamBadge, TeamOrTbd } from '@/components/TeamBadge'
+import { TeamOrTbd } from '@/components/TeamBadge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { useAsync } from '@/hooks/useAsync'
 import { cn, formatDate, formatSeconds } from '@/lib/utils'
 import type { GameDetail, GameEvent, LineupPlayer, StatType } from '@/types'
+import { LineupPitch } from './LineupPitch'
 import { VideoPlayer, type VideoPlayerHandle } from './VideoPlayer'
 
 export function GameDetailPage() {
@@ -43,6 +44,7 @@ function GameView({
 }) {
   const { t, i18n } = useTranslation()
   const player = useRef<VideoPlayerHandle>(null)
+  const back = (useLocation().state as { back?: string } | null)?.back
 
   const playersById = useMemo(() => {
     const map = new Map<number, LineupPlayer>()
@@ -71,8 +73,9 @@ function GameView({
 
   return (
     <div className="space-y-6">
-      <Link to="/" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
-        <ArrowLeft className="h-4 w-4" aria-hidden /> {t('nav.home')}
+      {/* HS-40: takvimden gelindiyse aynı haftanın takvimine döner */}
+      <Link to={back ?? '/'} className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
+        <ArrowLeft className="h-4 w-4" aria-hidden /> {back ? t('nav.schedule') : t('nav.home')}
       </Link>
 
       {/* Skor tabelası */}
@@ -153,30 +156,17 @@ function GameView({
             </Card>
           )}
 
+          {/* HS-40: kadro saha üzerinde; kadrolar oluşturulduktan sonra (HS-44) */}
           <Card>
             <CardHeader>
               <CardTitle>{t('game.lineups')}</CardTitle>
             </CardHeader>
-            <CardContent className="grid gap-6 sm:grid-cols-2">
-              {game.lineups.map((lineup) => {
-                const team = lineup.team_id === game.home_team?.id ? game.home_team : game.away_team
-                return (
-                  <div key={lineup.team_id}>
-                    {team && <TeamBadge team={team} className="mb-2 font-semibold" />}
-                    <ul className="space-y-1">
-                      {lineup.players.map((p) => (
-                        <li key={p.id}>
-                          <Link to={`/players/${p.id}`} className="flex items-center gap-2 rounded px-1 py-1 text-sm hover:bg-muted">
-                            <span className="w-7 text-xs font-semibold text-muted-foreground">{p.pitch.position ?? p.position}</span>
-                            {p.nickname}
-                            <span className="text-xs text-muted-foreground">· {p.full_name}</span>
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )
-              })}
+            <CardContent>
+              {game.status !== 'scheduled' && game.lineups.some((l) => l.players.length > 0) ? (
+                <LineupPitch game={game} statTypes={statTypes} />
+              ) : (
+                <p className="py-6 text-center text-sm text-muted-foreground">{t('game.lineupsNotSet')}</p>
+              )}
             </CardContent>
           </Card>
         </div>

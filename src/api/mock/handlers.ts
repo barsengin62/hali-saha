@@ -13,7 +13,7 @@ import type {
   StandingRow,
   User,
 } from '@/types'
-import { games, organizations, organizationTeams, players, SAMPLE_VIDEO_URL, statTypes, teams } from './data'
+import { games, lineupOf, organizations, organizationTeams, players, SAMPLE_VIDEO_URL, statTypes, teams } from './data'
 import { isChangeable, myRequest, scheduledGames, setRequest, withRegistration } from './schedule'
 
 const wait = (ms = 300) => new Promise((r) => setTimeout(r, ms))
@@ -232,7 +232,15 @@ export const mockApi: ApiClient = {
     const detail = games.find((g) => g.id === id)
     if (detail) return detail
     const scheduled = scheduledGames.find((g) => g.id === id) ?? notFound()
-    return { ...withRegistration(scheduled), lineups: [], events: [], video: null, highlights: [] }
+    // HS-40: kadroları oluşturulmuş maçta takım kadrolarından varsayılan diziliş
+    const lineups =
+      scheduled.status === 'lineups_set' && scheduled.home_team && scheduled.away_team
+        ? [
+            { team_id: scheduled.home_team.id, players: lineupOf(scheduled.home_team.id, 'home') },
+            { team_id: scheduled.away_team.id, players: lineupOf(scheduled.away_team.id, 'away') },
+          ]
+        : []
+    return { ...withRegistration(scheduled), lineups, events: [], video: null, highlights: [] }
   },
 
   // ---------- Takvim ve kayıt ----------

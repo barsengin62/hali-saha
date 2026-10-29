@@ -41,6 +41,8 @@
   "game": {
     "timeline": "Maç akışı",
     "lineups": "Kadrolar",
+    "lineupsNotSet": "Kadrolar henüz belli değil.",
+    "lineupEvent": "{{count}} × {{type}}",
     "stats": "İstatistikler",
     "video": "Maç videosu",
     "highlights": "Önemli anlar",
@@ -152,6 +154,8 @@
       "any": "Fark etmez",
       "submit": "Talep gönder",
       "cancel": "Vazgeç"
-    }
+    },
+    "details": "Maç detayı",
+    "viewLineup": "Kadroyu gör"
   }
 }
