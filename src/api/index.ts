@@ -131,7 +131,8 @@ const realApi: ApiClient = {
 
   // ---------- Takvim ve kayıt (HS-37) ----------
   async schedule({ from, to }) {
-    const page = await realApi.games({ status: ['scheduled'], from, to, sort: 'starts_at', per_page: 50 })
+    // Takvim: planlanmış ve kadroları oluşturulmuş (HS-44) maçlar
+    const page = await realApi.games({ status: ['scheduled', 'lineups_set'], from, to, sort: 'starts_at', per_page: 50 })
     return page.data
   },
   async registerForGame(id) {

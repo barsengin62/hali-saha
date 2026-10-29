@@ -48,6 +48,7 @@
     "noEvents": "Für dieses Spiel wurde noch keine Analyse eingetragen.",
     "status": {
       "scheduled": "Geplant",
+      "lineups_set": "Aufstellung steht",
       "played": "Gespielt",
       "analyzed": "Analysiert"
     },
@@ -138,6 +139,9 @@
     "gameCount_one": "{{count}} Spiel",
     "gameCount_other": "{{count}} Spiele",
     "invalidRange": "Das Enddatum darf nicht vor dem Startdatum liegen.",
-    "rule": "An- und Abmeldung sind bis Spielbeginn möglich."
+    "rule": "An- und Abmeldung sind bis Spielbeginn möglich.",
+    "lineupsSet": "Aufstellung steht",
+    "inSquad": "Du bist im Kader",
+    "lineupsRule": "Die Aufstellung steht; An- und Abmeldung sind geschlossen."
   }
 }

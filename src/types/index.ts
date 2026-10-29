@@ -5,7 +5,8 @@
 
 export type Position = 'GK' | 'DF' | 'MF' | 'FW'
 export type Foot = 'right' | 'left' | 'both'
-export type GameStatus = 'scheduled' | 'played' | 'analyzed'
+/** lineups_set: kadrolar oluşturuldu (HS-44); kayıt ve kayıttan çıkma kapalı */
+export type GameStatus = 'scheduled' | 'lineups_set' | 'played' | 'analyzed'
 export type OrganizationType = 'league' | 'tournament' | 'random'
 
 // ---------- Kullanıcı (UserResource) ----------

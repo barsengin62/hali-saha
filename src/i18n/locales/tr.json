@@ -48,6 +48,7 @@
     "noEvents": "Bu maç için henüz analiz girilmedi.",
     "status": {
       "scheduled": "Planlandı",
+      "lineups_set": "Kadrolar oluşturuldu",
       "played": "Oynandı",
       "analyzed": "Analiz edildi"
     },
@@ -138,6 +139,9 @@
     "gameCount_one": "{{count}} maç",
     "gameCount_other": "{{count}} maç",
     "invalidRange": "Bitiş tarihi başlangıçtan önce olamaz.",
-    "rule": "Kayıt ve kayıttan çıkma maç başlayana kadar açık."
+    "rule": "Kayıt ve kayıttan çıkma maç başlayana kadar açık.",
+    "lineupsSet": "Kadrolar belli oldu",
+    "inSquad": "Kadrodasın",
+    "lineupsRule": "Kadrolar belli oldu; kayıt ve kayıttan çıkma kapalı."
   }
 }

@@ -1,6 +1,7 @@
 /**
  * Maç takvimi için sahte veri. Bugünün tarihine göre üretilir:
  * geçen haftadan 3 hafta sonrasına kadar, her hafta birkaç planlanmış maç.
+ * Bu haftanın bazı takımlı maçlarının kadroları oluşturulmuş (HS-44, lineups_set).
  * Kayıt ol / iptal et işlemleri sayfa açık kaldığı sürece bellekte tutulur.
  * Kurallar backend'deki GameRegistrationService ile aynı (HS-37).
  */
@@ -51,10 +52,12 @@ function build(): Game[] {
       }
 
       const org = hasTeams ? organizations[0] : organizations[1]
-      registrations.set(id, { count: registered, mine: false })
+      // Kadrolar oluşturuldu: bu hafta, takımlı maçların bazıları; ilkinde kullanıcı kadroda
+      const lineupsSet = hasTeams && week === 0 && slotIdx % 3 === 0
+      registrations.set(id, { count: registered, mine: lineupsSet && slotIdx === 0 })
       result.push({
         id: id++,
-        status: 'scheduled',
+        status: lineupsSet ? 'lineups_set' : 'scheduled',
         organization: { id: org.id, slug: org.slug, name: org.name },
         pitch: pitches[pitchIdx],
         starts_at: start.toISOString(),
@@ -73,7 +76,7 @@ function build(): Game[] {
 
 export const scheduledGames: Game[] = build()
 
-/** Kayıt değiştirilebilir mi: planlandı ve başlamadı */
+/** Kayıt değiştirilebilir mi: planlandı ve başlamadı (kadrolar oluşturulduysa kapalı) */
 export function isChangeable(game: Game): boolean {
   return game.status === 'scheduled' && new Date(game.starts_at).getTime() > Date.now()
 }

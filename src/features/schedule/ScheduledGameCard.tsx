@@ -1,4 +1,4 @@
-import { CheckCircle2, Clock, Loader2, MapPin, Users } from 'lucide-react'
+import { CheckCircle2, Clock, Loader2, Lock, MapPin, Users } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { TeamOrTbd } from '@/components/TeamBadge'
 import { Button } from '@/components/ui/button'
@@ -23,6 +23,8 @@ export function ScheduledGameCard({ game, busy, onRegister, onUnregister }: Prop
   const spotsLeft = registration.spots_left
   const isFull = spotsLeft === 0
   const hasStarted = new Date(game.starts_at).getTime() <= Date.now()
+  // HS-44: kadrolar oluşturuldu; kayıt ve kayıttan çıkma kapalı
+  const lineupsSet = game.status === 'lineups_set'
   const fillPct = Math.min(100, (registration.count / game.capacity) * 100)
   const endTime = new Date(new Date(game.starts_at).getTime() + game.duration_min * 60_000).toISOString()
 
@@ -43,8 +45,16 @@ export function ScheduledGameCard({ game, busy, onRegister, onUnregister }: Prop
           </span>
           <span className="text-xs text-chalk/60">– {formatTime(endTime, i18n.language)}</span>
         </span>
-        <span className="rounded bg-lime-accent px-2 py-0.5 text-xs font-bold text-pitch-950">
-          {t('schedule.format', { n: game.format })}
+        <span className="flex items-center gap-1.5">
+          {lineupsSet && (
+            <span className="inline-flex items-center gap-1 rounded bg-chalk/15 px-2 py-0.5 text-xs font-semibold">
+              <Lock className="h-3 w-3" aria-hidden />
+              {t('schedule.lineupsSet')}
+            </span>
+          )}
+          <span className="rounded bg-lime-accent px-2 py-0.5 text-xs font-bold text-pitch-950">
+            {t('schedule.format', { n: game.format })}
+          </span>
         </span>
       </header>
 
@@ -103,6 +113,18 @@ export function ScheduledGameCard({ game, busy, onRegister, onUnregister }: Prop
             <Button variant="outline" className="w-full" disabled>
               {t('schedule.started')}
             </Button>
+          ) : lineupsSet ? (
+            registration.is_registered ? (
+              <p className="inline-flex w-full items-center justify-center gap-1.5 py-2 text-sm font-semibold text-primary">
+                <CheckCircle2 className="h-4 w-4" aria-hidden />
+                {t('schedule.inSquad')}
+              </p>
+            ) : (
+              <Button variant="outline" className="w-full" disabled>
+                <Lock className="h-4 w-4" aria-hidden />
+                {t('schedule.lineupsSet')}
+              </Button>
+            )
           ) : registration.is_registered ? (
             <div className="flex items-center gap-2">
               <span className="inline-flex flex-1 items-center gap-1.5 text-sm font-semibold text-primary">
@@ -120,8 +142,12 @@ export function ScheduledGameCard({ game, busy, onRegister, onUnregister }: Prop
               {isFull ? t('schedule.full') : t('schedule.register')}
             </Button>
           )}
-          {/* Kayıt kuralı (HS-37): kayıt ve kayıttan çıkma maç başlayana kadar açık */}
-          {!hasStarted && <p className="text-center text-xs text-muted-foreground">{t('schedule.rule')}</p>}
+          {/* Kayıt kuralı (HS-37 / HS-44): maç başlayana veya kadrolar oluşturulana kadar açık */}
+          {!hasStarted && (
+            <p className="text-center text-xs text-muted-foreground">
+              {t(lineupsSet ? 'schedule.lineupsRule' : 'schedule.rule')}
+            </p>
+          )}
         </div>
       </div>
     </article>

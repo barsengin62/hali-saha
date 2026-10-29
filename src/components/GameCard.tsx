@@ -22,6 +22,7 @@ export function GameCard({ game }: { game: Game }) {
             game.status === 'analyzed' && 'bg-lime-accent/30 text-pitch-800 dark:text-lime-accent',
             game.status === 'played' && 'bg-muted',
             game.status === 'scheduled' && 'bg-muted',
+            game.status === 'lineups_set' && 'bg-primary/15 text-primary',
           )}
         >
           {game.status === 'analyzed' && <Video className="h-3 w-3" aria-hidden />}

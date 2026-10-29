@@ -237,7 +237,7 @@ export const mockApi: ApiClient = {
 
   // ---------- Takvim ve kayıt ----------
   async schedule({ from, to }) {
-    const page = await mockApi.games({ status: ['scheduled'], from, to, sort: 'starts_at', per_page: 50 })
+    const page = await mockApi.games({ status: ['scheduled', 'lineups_set'], from, to, sort: 'starts_at', per_page: 50 })
     return page.data
   },
 
@@ -246,6 +246,7 @@ export const mockApi: ApiClient = {
     const game = scheduledGames.find((g) => g.id === id) ?? notFound()
     const current = withRegistration(game).registration!
     if (current.is_registered) return withRegistration(game)
+    if (game.status === 'lineups_set') unprocessable('registration', 'Kadrolar oluşturuldu; kayıt değiştirilemez.')
     if (!isChangeable(game)) unprocessable('registration', 'Maç başladı; kayıt değiştirilemez.')
     if (current.spots_left === 0) unprocessable('registration', 'Kontenjan dolu.')
     setRegistration(id, true)
@@ -256,6 +257,7 @@ export const mockApi: ApiClient = {
     await wait(250)
     const game = scheduledGames.find((g) => g.id === id) ?? notFound()
     if (!withRegistration(game).registration!.is_registered) return withRegistration(game)
+    if (game.status === 'lineups_set') unprocessable('registration', 'Kadrolar oluşturuldu; kayıt değiştirilemez.')
     if (!isChangeable(game)) unprocessable('registration', 'Maç başladı; kayıt değiştirilemez.')
     setRegistration(id, false)
     return withRegistration(game)

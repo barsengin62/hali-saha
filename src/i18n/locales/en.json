@@ -48,6 +48,7 @@
     "noEvents": "No analysis has been entered for this match yet.",
     "status": {
       "scheduled": "Scheduled",
+      "lineups_set": "Lineups set",
       "played": "Played",
       "analyzed": "Analyzed"
     },
@@ -138,6 +139,9 @@
     "gameCount_one": "{{count}} match",
     "gameCount_other": "{{count}} matches",
     "invalidRange": "End date can't be before start date.",
-    "rule": "You can register or cancel until kick-off."
+    "rule": "You can register or cancel until kick-off.",
+    "lineupsSet": "Lineups set",
+    "inSquad": "You're in the squad",
+    "lineupsRule": "The lineups are set; signing up and leaving are closed."
   }
 }
